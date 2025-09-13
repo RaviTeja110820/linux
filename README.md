@@ -148,4 +148,121 @@ Popular Linux distributions:
 
 ✅ **Conclusion for DevOps:**  
 - Linux is the **primary choice** because almost all modern DevOps tools, CI/CD workflows, and cloud-native applications are **built for Linux first**.  
-- Windows is still important in enterprises for **legacy .NET apps, Microsoft services, and Active Directory**.  
+- Windows is still important in enterprises for **legacy .NET apps, Microsoft services, and Active Directory**.
+
+# 🐧 Setup Linux OS
+
+There are multiple ways to set up and practice Linux:
+
+---
+
+## 1. Virtual Machine (VM) – Free
+- Use **VMware** or **Oracle VirtualBox**.  
+- Create a virtual machine and install Linux OS.  
+- Good for local learning and experimentation.  
+
+---
+
+## 2. Cloud Platforms
+- Platforms: **AWS**, **GCP**, **Azure**.  
+- Steps:
+  1. Create a free account.  
+  2. Use free-tier **VM service** (usually available).  
+- Useful for real-world practice (cloud + Linux).  
+
+---
+
+## 3. WSL (Windows Subsystem for Linux)
+- Download and install WSL on Windows machine.  
+- Run Linux commands inside Windows.  
+- Great for developers who don’t want to set up a full VM.  
+
+---
+
+## 4. Docker Container
+- Install **Docker** on Windows (with WSL) or Mac machine.  
+- Spin up a **Docker container** with Linux OS.  
+- Practice Linux commands inside containers.  
+- Lightweight and quick to start.  
+
+---
+
+✅ **Recommendation (for DevOps practice):**  
+- Start with **WSL** (if on Windows) or **Docker Containers**.  
+- Move to **Cloud VMs** later for real-world experience.  
+
+# 🐧 Setting up Linux OS as a Docker Container (Windows/Mac)
+
+## 📌 Step 1: Install Docker
+- Go to [Docker Desktop Install Guide](https://docs.docker.com/desktop/setup/install/windows-install/)  
+- Download **Docker Desktop for Windows (x86_64)** or for Mac.  
+- Install and start Docker.
+
+---
+
+## 📌 Step 2: Run Ubuntu Container
+Open **CMD Prompt** (Windows) or **Terminal** (Mac), then run:
+
+```bash
+docker run -dit \
+  --name ubuntu-container1 \
+  --hostname ubuntu-dev \
+  --restart unless-stopped \
+  --cpus="2" \
+  --memory="4g" \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -p 2222:22 \
+  -p 8989:80 \
+  --env TZ=Asia/Kolkata \
+  --env LANG=en_US.UTF-8 \
+  ubuntu:latest /bin/bash
+```
+
+## ⚙️ Explanation of Options
+
+- `-dit` → Run container in **detached interactive mode** with terminal.  
+- `--name ubuntu-container1` → Custom container name.  
+- `--hostname ubuntu-dev` → Sets internal container hostname.  
+- `--restart unless-stopped` → Auto-starts container after reboot, unless stopped manually.  
+- `--cpus="2"` → Limits container to **2 CPU cores**.  
+- `--memory="4g"` → Assigns max **4GB RAM**.  
+- `-v /var/run/docker.sock:/var/run/docker.sock` → Mounts Docker socket for **nested Docker usage**.  
+- `-p 2222:22` → Maps **container SSH port 22 → host port 2222**.  
+- `-p 8989:80` → Maps **container web port 80 → host port 8989**.  
+- `--env TZ=Asia/Kolkata` → Sets container **timezone**.  
+- `--env LANG=en_US.UTF-8` → Sets **default language/locale**.  
+- `ubuntu:latest` → Base image (**latest Ubuntu**).  
+- `/bin/bash` → Starts container with **bash shell**.
+
+
+## 📌 Step 3: Check Running Containers 🐳
+```bash
+docker ps -a
+```
+- This lists all running/stopped containers. Copy the Container ID of Ubuntu.
+
+## 📌 Step 3: Access Container Shell
+```bash
+docker exec -it <container-ID> /bin/bash
+```
+- Replace <container-ID> with your actual container ID.
+- You are now inside Ubuntu Linux shell.
+  
+## 📌 Step 5: Exit Container
+```bash
+exit
+```
+- to leave the container.
+
+## 📌 Step 6: Delete Containers
+```bash
+docker rm -f $(docker ps -aq)
+```
+
+## 📝 Summary
+
+- `docker run` → Creates and starts container  
+- `docker ps -a` → Lists all containers  
+- `docker exec -it <id> /bin/bash` → Access container shell  
+- `exit` → Quit container  
+- `docker rm -f $(docker ps -aq)` → Remove all containers  
