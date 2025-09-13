@@ -204,6 +204,10 @@ There are multiple ways to set up and practice Linux:
 Open **CMD Prompt** (Windows) or **Terminal** (Mac), then run:
 
 ```bash
+docker run -dit --name ubuntu-container1 --hostname ubuntu-dev --restart unless-stopped --cpus="2" --memory="4g" -v /var/run/docker.sock:/var/run/docker.sock -p 2222:22 -p 8989:80 --env TZ=Asia/Kolkata --env LANG=en_US.UTF-8 ubuntu:latest /bin/bash
+```
+
+```bash
 docker run -dit \
   --name ubuntu-container1 \
   --hostname ubuntu-dev \
