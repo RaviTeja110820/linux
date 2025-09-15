@@ -270,3 +270,59 @@ docker rm -f $(docker ps -aq)
 - `docker exec -it <id> /bin/bash` → Access container shell  
 - `exit` → Quit container  
 - `docker rm -f $(docker ps -aq)` → Remove all containers  
+
+# 🔐 SSH (Secure Shell) Protocol
+
+## 📌 What is SSH?
+- **SSH (Secure Shell)** is a **network protocol** used to securely connect to remote machines over an **untrusted network (like the internet)**.
+- It replaces older insecure protocols like **Telnet** and **rlogin**.
+- Provides **confidentiality, integrity, and authentication**.
+
+---
+
+## 📌 How SSH Works
+1. **Client initiates connection** → You run:
+   ```bash
+   ssh user@server-ip
+   ```
+2. Server responds with its public key.
+3. Client verifies server identity (to avoid man-in-the-middle attacks).
+4. A secure encrypted channel is established.
+5. User logs in with password or SSH key pair (public/private key).
+
+## 📌 Example commands
+
+- connect to remote server:
+  ```bash
+  ssh -i mykey.pem ubuntu@13.233.106.44
+  ```
+- Copy file to server:
+  ```bash
+  scp file.txt ubuntu@13.233.106.44:/home/ubuntu/
+  ```
+
+## 📌 Default SSH Port
+- By default, **SSH uses port `22`** (TCP).
+- All SSH connections (login, file transfer, tunneling) happen over this port unless changed.
+
+# 🌐 Common Protocols & Default Ports
+
+| Protocol | Port Number | Transport | Usage |
+|----------|-------------|-----------|-------|
+| **SSH**  | 22          | TCP       | Secure remote login, file transfer, tunneling |
+| **HTTP** | 80          | TCP       | Unsecured web traffic |
+| **HTTPS**| 443         | TCP       | Secured web traffic (TLS/SSL) |
+| **FTP**  | 21          | TCP       | File Transfer Protocol (unsecured) |
+| **SFTP** | 22          | TCP       | Secure File Transfer (over SSH) |
+| **SMTP** | 25          | TCP       | Simple Mail Transfer (sending emails) |
+| **IMAP** | 143         | TCP       | Email retrieval (unencrypted) |
+| **IMAPS**| 993         | TCP       | Secure email retrieval |
+| **POP3** | 110         | TCP       | Email retrieval (unencrypted) |
+| **POP3S**| 995         | TCP       | Secure email retrieval |
+| **DNS**  | 53          | TCP/UDP   | Domain name resolution |
+| **MySQL**| 3306        | TCP       | MySQL database |
+| **PostgreSQL** | 5432  | TCP       | PostgreSQL database |
+| **MongoDB** | 27017    | TCP       | MongoDB database |
+| **Redis**| 6379        | TCP       | Redis in-memory database |
+| **Kubernetes API** | 6443 | TCP    | Kubernetes cluster management |
+| **RDP**  | 3389        | TCP       | Remote Desktop Protocol (Windows) |
