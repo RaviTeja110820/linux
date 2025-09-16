@@ -326,3 +326,43 @@ docker rm -f $(docker ps -aq)
 | **Redis**| 6379        | TCP       | Redis in-memory database |
 | **Kubernetes API** | 6443 | TCP    | Kubernetes cluster management |
 | **RDP**  | 3389        | TCP       | Remote Desktop Protocol (Windows) |
+
+
+# 👤 Linux Users and Root User
+
+## 1. Root User
+- The **root** user is the **superuser** in Linux.  
+- Has **full control** over the system (install, remove, modify, delete anything).  
+- **UID (User ID) = 0**.  
+- Prompt symbol:
+  - Root → `#`
+  - Normal user → `$`
+
+🔹 Example:
+```bash
+whoami
+```
+## 2. Creating a User,password and deletion 
+```bash
+sudo useradd ravi
+sudo passwd ravi
+sudo userdel ravi
+```
+## 3. Where User Information is Stored
+- /etc/passwd → stores user account details.
+- /etc/shadow → stores encrypted passwords (only root can read).
+- /etc/group → stores user groups.
+  
+## 4. Switching Users
+- Switch to another user
+  ```bash
+  su - ravi
+  ```
+- Switch to root
+  ```bash
+  sudo -i
+
+  #OR
+
+  su -
+  ```
