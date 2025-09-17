@@ -366,3 +366,62 @@ sudo userdel ravi
 
   su -
   ```
+
+# 🐧 Common Linux Commands for DevOps
+
+1. `uname`
+- Displays basic information about the system.
+  ```bash
+uname
+```
+- Shows all details (kernel version, machine, architecture, etc.).
+  ```bash
+uname -a
+```
+2. /etc/os-release
+- File containing information about the Linux distribution.
+```bash
+  cat /etc/os-release
+```
+- Example output:
+  ```bash
+NAME="Ubuntu"
+VERSION="22.04.3 LTS (Jammy Jellyfish)"
+ID=ubuntu
+PRETTY_NAME="Ubuntu 22.04 LTS"
+```
+3. history
+- Displays the command history of the current user.
+  ```bash
+   history
+  ```
+4. pwd
+- Prints the present working directory.
+  ```bash
+  pwd
+  ```
+5. mkdir
+- Creates a new directory.
+  ```bash
+  mkdir devops
+  ```
+- Creates nested directories (project/src).
+  ```bash
+  mkdir -p project/src
+  ```
+6. --help
+- Provides help/documentation for a command.
+  ```bash
+  ls --help             # Shows available options for the ls command.
+  ```
+7. touch
+- Creates an empty file or updates file timestamp.
+  ```bash
+  touch file1.txt
+  touch file{1..5}.txt
+  ```
+8. Lists all installed packages
+  ```bash
+  apt list --installed
+  dpkg --list
+  ```
