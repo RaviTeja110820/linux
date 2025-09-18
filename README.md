@@ -470,7 +470,82 @@ sudo userdel ravi
    ```bash
    /version
    ```
-- Find and replace globally. Replaces all `version` with `VERSION` in the entire file.
+- Find and replace globally. Replaces all `version` with `VERSION` in the entire file.`g` means globle, `c` means conforming the change.
    ```bash
-   :%s/version/VERSION/g
+   :%s/version/VERSION/gc
    ```
+- In Vim, the command `:g/pattern/` executes an action on all lines **matching** the given pattern.By default, it **prints** all matching lines.
+
+## `.vimrc` File
+- The .vimrc file is a configuration file for Vim.
+- It allows you to set preferences and automate settings when Vim starts.
+- With .vimrc, you don’t need to type commands like :set number every time you open Vim.
+- Location: `~/.vimrc` (in the home directory)
+- Common settings:
+   ```bash
+   #Enable line numbers
+   set number
+
+   #Enable syntax highlighting
+   syntax on
+
+   #Show matching brackets
+   set showmatch
+
+   #Auto-indent
+   set autoindent
+   set tabstop=4
+   set shiftwidth=4
+
+   ```
+
+## grep
+- The grep command searches for text patterns in files.
+- Case-sensitive search.Prints all lines containing the exact word `VERSION`:
+   ```bash
+   grep "VERSION" file1
+   ```
+- Case-insensitive search. Matches `VERSION`, `version`, `Version`, etc:
+   ```bash
+   grep -i "VERSION" file1
+   ```
+- Case-insensitive + show line numbers:
+   ```bash
+   grep -in "VERSION" file1
+   ```
+- Search processes with grep
+   ```bash
+   ps -ef | grep python3
+   ```
+📌 Common grep Options Cheat Sheet
+| Option       | Description                                | Example                      |
+| ------------ | ------------------------------------------ | ---------------------------- |
+| `-i`         | Ignore case                                | `grep -i "hello" file.txt`   |
+| `-n`         | Show line numbers                          | `grep -n "main" program.c`   |
+| `-v`         | Invert match (show lines **not** matching) | `grep -v "error" log.txt`    |
+| `-r` or `-R` | Recursive search in directories            | `grep -r "TODO" src/`        |
+| `-c`         | Count number of matching lines             | `grep -c "root" /etc/passwd` |
+| `-l`         | Show filenames with matches                | `grep -l "main" *.c`         |
+| `-w`         | Match whole word                           | `grep -w "cat" animals.txt`  |
+| `-A N`       | Show N lines **after** a match             | `grep -A2 "error" logfile`   |
+| `-B N`       | Show N lines **before** a match            | `grep -B2 "error" logfile`   |
+| `-C N`       | Show N lines **before & after**            | `grep -C3 "error" logfile`   |
+
+## Process Management `ps -ef`:
+- Lists all running processes in full detail.
+- Columns usually include:
+   * UID → User running the process
+   * PID → Process ID
+   * PPID → Parent process ID
+   * CMD → Command used to start the process
+## `sed` Command
+- sed is a stream editor used for text replacement
+- Example: Replace VERSION with myVersion
+   ```bash
+   sed 's/VERSION/myVersion/g' file2
+   ```
+   * `s` → Substitute
+   * `VERSION` → Search pattern
+   * `myVersion` → Replacement text
+   * `g` → Replace all matches in a line
+ 
