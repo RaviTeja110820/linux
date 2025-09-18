@@ -425,3 +425,52 @@ sudo userdel ravi
      apt list --installed
      dpkg --list
      ```
+9. echo
+- The `echo` command is used to **print text to the terminal** or **write text into files**.
+- Print to screen:
+   ```bash
+   echo "devops"
+   ```
+- Overwrite file content. Creates a file named file1 (if not exists) and writes devops into it
+   ```bash
+   echo "devops" > file1
+   ```
+- Append to a file. Appends the text hello to the file file1 without overwriting.
+   ```bash
+   echo "hello" >> file1
+   ```
+- Append on the same line. By default, echo adds a newline at the end. Use the `-n` flag to avoid a newline.
+   ```bash
+   echo -n "hello " >> file1
+   echo "world" >> file1
+   ```
+## Nano Editor 
+- Nano is a simple command-line text editor.
+- open a file:
+   ```bash
+   nano file1
+   ```
+- Common shortcuts:
+     * `Ctrl + X` → Exit nano
+     * `Y` → Save changes when prompted
+     * `N` → Discard changes
+     * `Enter` → Confirm file name when saving
+## Vim Editor
+- Vim is a powerful text editor with multiple modes.
+- Modes:
+   * Normal mode (default) → Navigation and commands
+   * Insert mode → Press i to insert text
+   * Command mode → Press : to run commands
+- Show line numbers & Hide line numbers
+   ```bash
+   :set number
+   :set nonumber
+   ```
+- Search for a word (e.g., version), Press `n` to go to the next match.
+   ```bash
+   /version
+   ```
+- Find and replace globally. Replaces all `version` with `VERSION` in the entire file.
+   ```bash
+   :%s/version/VERSION/g
+   ```
