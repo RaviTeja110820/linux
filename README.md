@@ -549,3 +549,77 @@ sudo userdel ravi
    * `myVersion` → Replacement text
    * `g` → Replace all matches in a line
  
+# 🔑 Linux File Permissions & `chmod`
+
+In Linux, every file and directory has **permissions** that control who can read, write, or execute them.
+
+
+## 1. File Permission Format
+
+Example:
+   -rw-rw-r--
+
+Breakdown:
+- **First character** → File type (`-` = file, `d` = directory, `l` = link).
+- **Next 9 characters** → Permissions grouped in **triplets**:
+
+| Owner | Group | Others |
+|-------|--------|--------|
+| rw-   | rw-    | r--    |
+
+- **Owner (User):** The user who owns the file.  
+- **Group:** Other users in the same group.  
+- **Others:** Everyone else on the system.  
+
+
+
+## 2. Permission Types & Numeric Values
+
+Each permission has a value:
+
+| Permission | Symbol | Value |
+|------------|---------|-------|
+| Read       | `r`     | 4     |
+| Write      | `w`     | 2     |
+| Execute    | `x`     | 1     |
+
+- Example: `rw-` = `4+2 = 6`  
+- Example: `r-x` = `4+1 = 5`  
+
+So:
+- `7 = rwx` (full access)
+- `6 = rw-` (read + write)
+- `5 = r-x` (read + execute)
+- `4 = r--` (read only)
+
+
+## 3. Using `chmod`
+
+`chmod` is used to change file permissions.
+
+### Symbolic Method
+- `u` → User (owner)
+- `g` → Group
+- `o` → Others
+- `a` → All (user + group + others)
+
+| Command | Meaning |
+|---------|----------|
+| `chmod g+w file1` | Add **write** permission for **group** |
+| `chmod g-w file1` | Remove **write** permission from **group** |
+| `chmod a+x file1` | Give execute permission to **all users** |
+| `chmod u-x file1` | Remove execute permission from **owner** |
+
+
+### Numeric Method
+Permissions can also be set with numbers.
+
+```bash
+chmod 755 file1
+```
+Breakdown:
+   * 7 (rwx) → User
+   * 5 (r-x) → Group
+   * 5 (r-x) → Others
+So 755 = user has full access, group & others can read + execute.
+
