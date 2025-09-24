@@ -366,6 +366,24 @@ sudo userdel ravi
 
   su -
   ```
+## 5. `getent group ubuntu`
+- `getent` is used to query system databases (like passwd, group, hosts, etc.).
+- `getent group <group-name>` shows details of a group.
+### Example:
+```bash
+getent group ubuntu
+```
+Output might look like:
+```bash
+ubuntu:x:1001:alice,bob
+```
+Breakdown:
+   * ubuntu → Group name
+   * x → Password placeholder (not used here)
+   * 1001 → Group ID (GID)
+   * alice,bob → Members of the group
+👉 This tells us which users belong to the ubuntu group.
+
 
 # 🐧 Common Linux Commands for DevOps
 
@@ -623,3 +641,24 @@ Breakdown:
    * 5 (r-x) → Others
 So 755 = user has full access, group & others can read + execute.
 
+## some examples:
+
+### `chmod -R 600 myfolder`
+   * `chmod` changes permissions.
+   * `-R` → Apply recursively (to folder and all its files/subfolders).
+   * `600` → Numeric permissions:
+      | User | Group | Others |
+      | ---- | ----- | ------ |
+      | rw-  | ---   | ---    |
+**Meaning:**
+   * Owner (user): Can read & write (no execute).
+   * Group: No permissions.
+   * Others: No permissions.
+     
+**Case:** `myfolder` is a directory
+   * The folder itself gets 600 → only owner can read and write it.
+⚠️ But since it lacks execute (x) permission, even the owner cannot enter the directory.
+
+**Effect on files inside:**
+   * All files inside will also be set to 600.
+   * This means: files are readable/writable by the owner only, no access for group/others.
