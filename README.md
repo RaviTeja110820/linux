@@ -549,13 +549,7 @@ Breakdown:
 | `-B N`       | Show N lines **before** a match            | `grep -B2 "error" logfile`   |
 | `-C N`       | Show N lines **before & after**            | `grep -C3 "error" logfile`   |
 
-## Process Management `ps -ef`:
-- Lists all running processes in full detail.
-- Columns usually include:
-   * UID → User running the process
-   * PID → Process ID
-   * PPID → Parent process ID
-   * CMD → Command used to start the process
+
 ## `sed` Command
 - sed is a stream editor used for text replacement
 - Example: Replace VERSION with myVersion
@@ -564,9 +558,97 @@ Breakdown:
    ```
    * `s` → Substitute
    * `VERSION` → Search pattern
-   * `myVersion` → Replacement text
+   * `my
+   * Version` → Replacement text
    * `g` → Replace all matches in a line
- 
+
+# ⚙️ Linux Process Management Commands
+## Process Management `ps -ef`:
+- Lists all running processes in full detail.
+- Columns usually include:
+   * UID → User running the process
+   * PID → Process ID
+   * PPID → Parent process ID
+   * CMD → Command used to start the process
+
+1. `ps` (Process Status)
+The `ps` command shows running processes of the current user/session.
+
+Example:
+   ```bash
+   ps
+   ```
+ ➡️ Lists processes running in the current shell.
+
+2. `ps a`
+   * Shows processes for all terminals, not just the current one.
+   * Useful for multi-user systems.
+  
+3. `ps au`
+   * `a` → All users’ processes (with terminal).
+   * `u` → Shows user-oriented format (owner, CPU, memory, etc.).
+   * Output columns:
+      * USER → Process owner
+      * PID → Process ID
+      * %CPU → CPU usage
+      * %MEM → Memory usage
+      * STAT → Process status
+      * COMMAND → Executed command
+4. `ps aux`
+   * `a` → All processes
+   * `u` → User format
+   * `x` → Show processes without a controlling terminal (background daemons, services).   
+
+5. Searching with grep
+   ➡️ Shows all processes containing `systemd`.
+      ```bash
+      ps aux | grep systemd
+      ```
+   ➡️ Shows processes whose command contains the word `ubuntu`.
+      ```bash
+      ps aux | grep ubuntu
+      ```
+   ➡️ Shows processes belonging to the user `ubuntu`.Output is limited to that user only.
+      ```bash
+      ps -u ubuntu
+      ```
+6. `kill -l`
+   * Lists all available signals you can send to processes.
+   * Common signals:
+      * `1 (SIGHUP)` → Reload a process
+      * `9 (SIGKILL)` → Force kill a process
+      * `15 (SIGTERM)` → Graceful termination (default)
+
+7. Kill Process by PID
+   * Each process has a PID (Process ID). You can terminate a process using kill.
+   * **Graceful termination:**
+      * Sends SIGTERM (default). Process can clean up before exiting.
+         ```bash
+         kill -15 <PID>
+         ```
+   * **Force kill:**
+      * Sends `SIGKILL`. Immediately stops the process (no cleanup).
+         ```bash
+         kill -9 <PID>
+         ```
+8. `pkill -u <username>`
+   * Kills all processes owned by the user `ubuntu`.
+   * ⚠️ Dangerous — it can log out or kill all apps for that user.
+      ```bash
+      pkill -u ubuntu
+      ```
+9. `killall` (Kill by Process Name)
+   * Unlike `kill` (which needs a PID), `killall` can directly kill processes by their name.
+   * Example: Kill all Firefox processes:
+      ```bash
+      killall firefox
+      ```
+   * Example: Kill all processes of a specific user
+      * Kills all processes started by user `ubuntu`.
+         ```bash
+         killall -u ubuntu
+         ```
+
 # 🔑 Linux File Permissions & `chmod`
 
 In Linux, every file and directory has **permissions** that control who can read, write, or execute them.
