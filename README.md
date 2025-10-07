@@ -116,19 +116,105 @@ Popular Linux distributions:
 
 ---
 
+# 🧠 Linux System Boot & Architecture Components
+
+Understanding how Linux boots and how its components work is important in **DevOps** for troubleshooting, automation, and system administration.
+
+---
+
+## ⚙️ 1. BIOS (Basic Input/Output System)
+- The **first program** that runs when you power on your computer.
+- Stored in the motherboard’s firmware.
+- Performs **POST (Power-On Self-Test)** to check hardware (RAM, CPU, disks, etc.).
+- Finds and loads the **bootloader** from the configured storage device (HDD, SSD, USB).
+
+---
+
+## 🚀 2. Boot Loader
+- A small program responsible for **loading the Linux kernel** into memory.
+- Examples: **GRUB (GRand Unified Bootloader)**, **LILO**, **systemd-boot**.
+- Displays a boot menu where you can select the OS or kernel version.
+
+---
+
+## 🧩 3. Kernel
+- The **core part of Linux** that manages:
+  - CPU scheduling  
+  - Memory management  
+  - Device drivers  
+  - File systems  
+  - Process control
+- The kernel initializes the **root filesystem** and starts the **init system** (PID 1).
+- It acts as a bridge between **hardware** and **user applications**.
+
+---
+
+## 🧠 4. Init System
+- The **first process started** by the kernel (`PID 1`).
+- Responsible for **starting all other background services (daemons)**.
+
+### Common init systems:
+| Init System | Description |
+|--------------|-------------|
+| **systemd** | Modern default in Ubuntu, CentOS, RHEL |
+| **SysVinit** | Older, script-based system |
+| **Upstart** | Transitional system used by older Ubuntu versions |
+
+Example: Checks the SSH service managed by `systemd`.
+```bash
+systemctl status ssh
+```
+
+---
+
+## 👻 5. Daemon Process
+- Background processes that provide services without direct user interaction.
+- Usually start automatically at boot time.
+- Examples: These are essential for running services in the background (common in servers).
+
+| Daemon             | Purpose                     |
+| ------------------ | --------------------------- |
+| `sshd` | Handles SSH remote logins |
+| `crond` | Manages scheduled cron jobs |
+| `systemd-journald` | Handles system logging |
+| `nginx` | Web server daemon |
+
+---
+
+## 🖥️ 6. Graphical Server (Display Server)
+- Handles the graphical environment (drawing windows, managing input devices, etc.).
+- Converts system output into graphical form.
+
+---
+
+## 🧰 7. Desktop Environment
+- Provides the GUI (Graphical User Interface) that users interact with.
+- Built on top of the graphical server.
+- Examples:
+
+| Environment | Used In |
+|--------------|----------|
+| **GNOME** | Ubuntu |
+| **KDE Plasma** | Kubuntu |
+| **XFCE** | Lightweight systems |
+
 ## 📌 Additional Notes for DevOps
 
 - **Kernel:** Core part of the OS; interacts directly with hardware.  
 - **User Space:** Where applications and utilities run.  
 - **Package Management:** (apt, yum, dnf, apk) → for installing software.  
 - **System Services:** Managed by **systemd** (Linux init system).  
-- **Automation:** Cron jobs, shell scripts, and configuration management tools.  
+- **Automation:** Cron jobs, shell scripts, and configuration management tools.
+- **Linux Boot Flow summary:**
+   ```bash
+   BIOS → Boot Loader (GRUB) → Kernel → Init (systemd) → Daemons → Graphical Server → Desktop → Applications
+   ```
 
 ---
 
 ---
 
-## 📊 Linux vs Windows in DevOps
+# 📊 Linux vs Windows in DevOps
 
 | Feature / Aspect        | 🐧 Linux                               | 🪟 Windows                           |
 |--------------------------|----------------------------------------|--------------------------------------|
