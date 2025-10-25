@@ -831,3 +831,37 @@ So 755 = user has full access, group & others can read + execute.
 **Effect on files inside:**
    * All files inside will also be set to 600.
    * This means: files are readable/writable by the owner only, no access for group/others.
+
+
+# 🌐 Public vs Private IP Addresses
+
+
+## 🔸 Private IP
+- Used **within the same network** (internal communication).
+- Not accessible from the internet.
+- Assigned to devices like EC2 instances, routers, or VMs inside a VPC/LAN.
+- Used for **internal data transfer** between servers or containers.
+
+### Example:
+- Private IP ranges (as per RFC 1918):
+   * 10.0.0.0 – 10.255.255.255
+   * 172.16.0.0 – 172.31.255.255
+   * 192.168.0.0 – 192.168.255.255
+
+### Example Use Case:
+- When two EC2 instances in the same VPC communicate, they use **private IPs**.
+
+
+## 🔸 Public IP
+- Used for communication **across different networks** or with the **internet**.
+- Globally unique — assigned by **ISP** or **cloud provider**.
+- Required to access a server from the internet (like SSH, web access, etc.).
+
+### Example: 
+   Public IP: 13.233.106.44
+### Example Use Case:
+- When you SSH into your AWS EC2 instance from your laptop, you use its **public IP**.
+
+## 🧩 Remember
+- Same network → **Private IP** communication  
+- Different networks (Internet) → **Public IP** communication
