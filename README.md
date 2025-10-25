@@ -927,3 +927,107 @@ In CI/CD pipelines and automation scripts:
 - Always run `apt-get update` or `yum update` before installing to refresh package lists.
 
 ---
+
+# 🔐 Package Repositories & GPG Keys
+
+A **package repository** is a centralized storage location that contains:
+
+- Software packages  
+- Their metadata (version, dependencies, etc.)  
+- Digital signatures (for verification)
+
+Your system’s **package manager** (like `apt` in Ubuntu) downloads software from these repositories.
+
+---
+
+## 🔒 Why Security Matters
+
+When downloading software from the internet, we must **ensure**:
+
+- It is from a **trusted source**  
+- It hasn’t been **tampered with** during transfer  
+
+That’s why package repositories use **GPG keys (GNU Privacy Guard)**.
+
+---
+
+## 🔑 Role of GPG Keys
+When you install software from a package repository (APT/YUM/etc.), you must trust that:
+- The repository is *authentic* (it really comes from the vendor).
+- Packages haven’t been *tampered with* in transit.
+
+To provide that trust, repositories use **cryptographic signing** (GPG keys).  
+- The **repository maintainer** signs repository metadata (Release files).  
+- Your package manager verifies signatures using the **public key** you installed locally.
+- If signatures match, packages are trusted and installation proceeds. If not, the package manager refuses to install (or warns).
+
+Each repository is **digitally signed** with a **GPG key pair**:
+
+- **Private Key:** Held securely by the repository owner (used to sign packages)  
+- **Public Key:** Shared with users (used to verify packages)
+
+---
+
+## ⚙️ Step-by-Step Process
+
+### 1. Download the Public Key
+
+You get the **public GPG key** from the repository provider.
+
+Example:
+```bash
+curl -fsSL https://example.com/repo.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/example.gpg
+```
+
+### 2. Store the Key
+
+Public keys are stored in:
+
+```
+/etc/keyrings/
+```
+
+This is where APT looks when verifying packages.
+
+### 3. Add the Repository
+
+You add the repository link to your system, referencing the key:
+
+```
+deb [signed-by=/etc/keyrings/example.gpg] https://example.com/ubuntu stable main
+```
+
+### 4. Download the Package
+
+When you run:
+```bash
+sudo apt update
+sudo apt install <package-name>
+```
+
+The system fetches the package and its **digital signature** (signed using the private key).
+
+### 5. Verification Step
+
+APT verifies the package by checking if:
+
+- The **signature** matches the **public key** in `/etc/keyrings`  
+- If it matches → package is **authentic and safe**  
+- If not → you get a **signature verification error**
+
+### 6. Installation Begins
+
+Once the signature check passes, the system installs the package.
+
+---
+
+## ✅ Summary
+
+| Step | Action | Purpose |
+|------|---------|----------|
+| 1 | Download public key | Establish trust |
+| 2 | Store in `/etc/keyrings` | For verification |
+| 3 | Add repository | Source of packages |
+| 4 | Download package | Retrieve signed files |
+| 5 | Verify signature | Ensure authenticity |
+| 6 | Install package | Safe installation |
