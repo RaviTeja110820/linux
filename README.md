@@ -1031,3 +1031,71 @@ Once the signature check passes, the system installs the package.
 | 4 | Download package | Retrieve signed files |
 | 5 | Verify signature | Ensure authenticity |
 | 6 | Install package | Safe installation |
+
+
+# 🧠 What is journalctl?
+
+`journalctl` is the **command-line tool** used to view logs collected by **systemd-journald**, the logging service that comes with all systemd-based Linux distributions (Ubuntu, Debian, RHEL, Fedora, Rocky, etc.).
+
+It lets you see logs from:
+- The **kernel** (dmesg-like messages)
+- **System services** (like sshd, nginx, docker, etc.)
+- **User processes**
+- **Boot messages** (system startup, shutdown, etc.)
+
+---
+
+## 🏗️ How It Works
+
+`systemd-journald` collects and stores logs in **binary format** under:
+
+```
+/var/log/journal/
+```
+
+`journalctl` reads that data and displays it in a **human-readable format**.
+
+So instead of multiple files in `/var/log/*.log`, systemd combines them into one journal you can query flexibly.
+
+---
+
+## ⚙️ Basic Syntax
+
+```
+journalctl [options]
+```
+
+**By default:**
+
+```
+journalctl
+```
+
+Shows all logs from **oldest to newest** (you might need `sudo`).
+
+---
+
+## 🔍 Useful Options & Examples
+
+| Command | Description |
+|----------|-------------|
+| `journalctl` | Show all logs from the journal |
+| `sudo journalctl -xe` | Shows recent logs with explanations — useful for troubleshooting errors |
+| `journalctl -r` | Reverse order (newest first) |
+| `journalctl -b` | Show logs from the current boot |
+| `journalctl -b -1` | Show logs from the previous boot |
+| `journalctl -f` | Follow live logs (like `tail -f /var/log/syslog`) |
+| `journalctl -k` | Show kernel messages only (like `dmesg`) |
+| `journalctl -u nginx` | Logs from a specific service unit (example: nginx) |
+| `journalctl -u ssh.service -b` | Logs for ssh service from this boot |
+| `journalctl --since "2 hours ago"` | Logs from the last 2 hours |
+| `journalctl --since "2025-10-14 07:00:00"` | Logs since a specific date/time |
+| `journalctl --since yesterday --until now` | Logs from yesterday until now |
+| `journalctl _PID=1234` | Logs from a specific process ID |
+| `journalctl _UID=1000` | Logs for a specific user ID |
+| `journalctl _COMM=sshd` | Logs for a specific command/process name |
+| `journalctl -n 50` | Show the last 50 log lines |
+| `journalctl --disk-usage` | Shows total disk space used by the journal |
+| `journalctl --vacuum-size=500M` | Limit logs to 500 MB total (deletes older logs) |
+
+---
