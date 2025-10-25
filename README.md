@@ -1099,3 +1099,138 @@ Shows all logs from **oldest to newest** (you might need `sudo`).
 | `journalctl --vacuum-size=500M` | Limit logs to 500 MB total (deletes older logs) |
 
 ---
+
+
+# ⚙️ Linux Service and Network Management Commands
+
+---
+
+## 🧩 1. systemd
+
+`systemd` is the **init system** and **service manager** for modern Linux distributions (like Ubuntu 18+, RHEL 7+, etc.).  
+It’s the **first process (PID 1)** started after boot.
+
+### 🧠 Responsibilities
+- Booting the system  
+- Managing services and daemons  
+- Mounting file systems  
+- Logging (`journalctl`)  
+- Handling shutdown/reboot  
+
+🧠 **Think of systemd as the brain that controls all system processes and background services.**
+
+### 🔍 Check if your system uses systemd
+```bash
+ps 1
+```
+
+**Output example:**
+```
+PID TTY          TIME CMD
+1   ?        00:00:04 systemd
+```
+
+---
+
+## 🧰 2. systemctl
+
+`systemctl` is the **command-line tool** used to control and manage `systemd` services.
+
+### 🧾 Common `systemctl` Commands
+
+| Command | Description |
+|----------|-------------|
+| `systemctl status jenkins` | Show status of Jenkins service |
+| `systemctl start jenkins` | Start Jenkins service |
+| `systemctl stop jenkins` | Stop Jenkins service |
+| `systemctl restart jenkins` | Restart Jenkins |
+| `systemctl enable jenkins` | Auto-start Jenkins at boot |
+| `systemctl disable jenkins` | Disable auto-start |
+| `systemctl list-units --type=service` | List all active services |
+| `systemctl is-active jenkins` | Check if Jenkins is running |
+| `systemctl daemon-reload` | Reload systemd configuration |
+
+---
+
+## 🌐 3. netstat
+
+`netstat` (**network statistics**) displays network connections, ports, and protocols used by your system.
+
+🧠 **Note:** In some newer systems, `netstat` is replaced by `ss`.
+
+### 🔹 Command
+```bash
+sudo netstat -plant
+```
+
+### 🔍 Explanation
+
+| Option | Description |
+|---------|-------------|
+| `-p` | Show the program (process) using the port |
+| `-l` | Show only listening sockets |
+| `-a` | Show all connections (listening + established) |
+| `-n` | Show numerical addresses (no DNS names) |
+| `-t` | Show TCP connections |
+
+**Example output:**
+```
+Proto Recv-Q Send-Q Local Address   Foreign Address  State   PID/Program name
+tcp6       0      0 :::8080        :::*             LISTEN  1234/java
+```
+
+📘 **This means port 8080 is being used by a Java process (like Jenkins or Tomcat).**
+
+---
+
+## 🧠 4. lsof (List Open Files)
+
+`lsof` means **List Open Files** — and since “everything is a file” in Linux, this includes **network sockets**.
+
+### 🔹 Command
+```bash
+sudo lsof -i :8080
+```
+
+### 🔍 Explanation
+`-i :8080` → Show which process is using port 8080
+
+**Output example:**
+```
+COMMAND   PID   USER     FD   TYPE DEVICE SIZE/OFF NODE NAME
+java     1234  jenkins  42u  IPv6  12345      0t0  TCP *:8080 (LISTEN)
+```
+
+**This means:**
+- Process `java` with PID `1234`  
+- Owned by user `jenkins`  
+- Is listening on TCP port `8080`  
+
+---
+
+## 🧩 5. How to Kill a Process Using a Port
+
+If you find a process occupying a port (e.g., 8080), you can stop it:
+
+```bash
+sudo kill -9 <PID>
+```
+
+**Example:**
+```bash
+sudo kill -9 1234
+```
+
+---
+
+## 🧾 Summary Table
+
+| Command | Purpose |
+|----------|----------|
+| `systemd` | Core system and service manager |
+| `systemctl` | Manage and control services |
+| `netstat -plant` | Show all active ports and related processes |
+| `lsof -i :8080` | Check which process is using port 8080 |
+| `kill -9 <PID>` | Forcefully stop a process by ID |
+
+---
