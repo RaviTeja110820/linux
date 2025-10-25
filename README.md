@@ -865,3 +865,65 @@ So 755 = user has full access, group & others can read + execute.
 ## 🧩 Remember
 - Same network → **Private IP** communication  
 - Different networks (Internet) → **Public IP** communication
+
+# 📦 Package Managers in Different Operating Systems
+
+Package managers are tools that help you **install, update, remove, and manage software** on an operating system.  
+They automatically handle **dependencies** and **repositories**, making software management easier and safer.
+
+---
+
+## 🐧 Linux Package Managers
+
+| Distribution | Package Manager | Command Examples | Description |
+|---------------|----------------|------------------|--------------|
+| **Debian / Ubuntu** | `apt` or `apt-get` | `sudo apt install nginx` | Uses `.deb` packages. Modern Ubuntu prefers `apt` over `apt-get`. |
+| **RedHat / Rocky Linux / CentOS / Amazon Linux** | `yum` or `dnf` | `sudo yum install httpd` / `sudo dnf install httpd` | Uses `.rpm` packages. `dnf` is the newer version of `yum`. |
+| **SUSE Linux / openSUSE** | `zypper` | `sudo zypper install vim` | Manages `.rpm` packages in SUSE-based systems. |
+
+---
+
+## 🪟 Windows Package Manager
+
+| OS | Package Manager | Command Example | Description |
+|----|------------------|------------------|-------------|
+| **Windows 10/11** | `winget` | `winget install vscode` | Official Microsoft CLI tool for installing apps and managing software. |
+
+---
+
+## 🍎 macOS Package Manager
+
+| OS | Package Manager | Command Example | Description |
+|----|------------------|------------------|-------------|
+| **macOS** | `Homebrew` | `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`<br>`brew install wget` | Popular open-source package manager for macOS. |
+
+---
+
+## 🐍 Python Package Manager
+
+| Language | Package Manager | Command Example | Description |
+|-----------|----------------|----------------|--------------|
+| **Python** | `pip` | `pip install flask` | Used to install Python packages from the **PyPI** repository. |
+
+---
+
+## 🧠 Summary
+
+| Platform | Package Manager | File Type |
+|-----------|------------------|-----------|
+| Ubuntu / Debian | apt, apt-get | `.deb` |
+| RedHat / CentOS / Amazon Linux | yum, dnf | `.rpm` |
+| SUSE Linux | zypper | `.rpm` |
+| Windows | winget | `.exe` / `.msi` |
+| macOS | brew (Homebrew) | `.pkg` / source |
+| Python | pip | `.whl` / `.tar.gz` |
+
+---
+
+## 🧩 DevOps Tip
+In CI/CD pipelines and automation scripts:
+- Use `apt-get -y install <package>` in **Ubuntu-based Dockerfiles**.  
+- Use `yum install -y <package>` in **Amazon Linux**.  
+- Always run `apt-get update` or `yum update` before installing to refresh package lists.
+
+---
