@@ -186,3 +186,304 @@ fi
 ```
 
 ---
+
+# 🐚 Shell Scripting Examples
+
+## 🧩 1. File and Directory Existence Check
+
+```bash
+if [ -f "/etc/passwd" ]; then
+  echo "File exists"
+else
+  echo "File does not exist"
+fi
+
+if [ -d "/etc" ]; then
+  echo "Directory exists"
+else
+  echo "Directory does not exist"
+fi
+```
+
+### 🔍 Explanation
+
+- `if [ -f "/etc/passwd" ]`: Checks if a file exists and is a regular file.  
+  - `-f` → test for a file.  
+  - `/etc/passwd` → path to check.
+
+- `if [ -d "/etc" ]`: Checks if a directory exists.  
+  - `-d` → test for a directory.
+
+- `then … else … fi`: Standard Bash if structure.  
+  - `then` → run the next command if condition is true.  
+  - `else` → run alternative commands if false.  
+  - `fi` → end of the if block.
+
+✅ **Output Example**
+
+```
+File exists
+Directory exists
+```
+
+---
+
+## 🌐 2. Array of URLs
+
+```bash
+# A variable storing list of values
+# Variable name is endpoints
+endpoints=(
+  "https://httpbin.org/status/200"
+  "https://httpbin.org/status/404"
+  "https://httpbin.org/status/500"
+)
+
+for endpoint in "${endpoints[@]}"; do
+  curl $endpoint
+done
+```
+
+### 🔍 Explanation
+
+- `endpoints=( ... )` → defines a Bash array.  
+- Each line is one element in the array.  
+- `"${endpoints[@]}"` → expands all elements of the array (like a list).  
+- `for endpoint in "${endpoints[@]}"; do … done`: Loops through each element in the array and stores it temporarily in the variable `endpoint`.  
+- `curl $endpoint` → runs an HTTP request for each URL.
+
+✅ **Output Example**  
+This will print HTTP responses from all three URLs.
+
+---
+
+## 🧠 3. HTTP Status Code Checker
+
+```bash
+endpoints=(
+  "https://httpbin.org/status/200"
+  "https://httpbin.org/status/404"
+  "https://httpbin.org/status/500"
+)
+
+for endpoint in "${endpoints[@]}"; do
+  status=$(curl -o /dev/null -s -w "%{http_code}" $endpoint)
+
+  if [ "$status" = "200" ]; then
+    echo "The URL returned success status as $status"
+  else
+    echo "The URL returned failure status as $status"
+  fi
+done
+```
+
+### 🔍 Explanation
+
+- `curl -o /dev/null -s -w "%{http_code}" $endpoint`:  
+  - `-o /dev/null` → discard the actual output.  
+  - `-s` → silent mode (no progress bar).  
+  - `-w "%{http_code}"` → print only the HTTP status code.
+
+- `status=$( ... )` → captures the command output into a variable.
+
+- The `if` block checks whether the status code equals `200`.  
+  - `200` → success (OK)  
+  - `404` or `500` → failure (Not Found / Server Error)
+
+✅ **Sample Output**
+
+```
+The URL returned success status as 200
+The URL returned failure status as 404
+The URL returned failure status as 500
+```
+
+---
+
+## ⚙️ Key Concepts Covered
+
+| Concept | Meaning |
+|----------|----------|
+| `-f` | Tests if a file exists |
+| `-d` | Tests if a directory exists |
+| `if … then … else … fi` | Conditional branching |
+| `Arrays ()` | Store multiple values |
+| `for … in … do … done` | Loops through items |
+| `$( … )` | Command substitution (store output in a variable) |
+| `curl` | Command-line HTTP client |
+| `%{http_code}` | Prints HTTP status code only |
+
+
+## 🧩4. HTTP Status Code Checker
+
+code checks multiple URLs and prints custom messages depending on the HTTP response code.
+
+```bash
+#!/bin/bash
+
+# A variable storing list of values
+# Variable name is endpoints
+endpoints=(
+  "https://httpbin.org/status/200"
+  "https://httpbin.org/status/404"
+  "https://httpbin.org/status/500"
+)
+
+# Loop through each endpoint
+for endpoint in "${endpoints[@]}"; do
+  # Get HTTP status code only
+  status=$(curl -o /dev/null -s -w "%{http_code}" $endpoint)
+
+  # Conditional logic based on status
+  if [ "$status" = "200" ]; then
+    echo "The URL $endpoint returned success status as $status"
+  elif [ "$status" = "404" ]; then
+    echo "The URL $endpoint returned status as $status"
+    echo "This httpbin.org page can't be found"
+  elif [ "$status" = "500" ]; then
+    echo "The URL $endpoint returned status as $status"
+    echo "This page isn't working"
+  else
+    echo "The URL $endpoint returned an unexpected status code: $status"
+  fi
+done
+```
+### 💡 Explanation
+
+*   endpoints=( ... ) → Stores multiple URLs in an array.
+    
+*   for endpoint in "${endpoints\[@\]}" → Loops through each URL.
+    
+*   curl -o /dev/null -s -w "%{http\_code}":
+    
+    *   \-o /dev/null → Discards body output
+        
+    *   \-s → Silent mode
+        
+    *   \-w "%{http\_code}" → Outputs HTTP code only
+        
+*   if / elif / else → Decides what message to print for each response.
+    
+
+### ✅ Example Output
+
+```rust
+The URL https://httpbin.org/status/200 returned success status as 200
+The URL https://httpbin.org/status/404 returned status as 404
+This httpbin.org page can't be found
+The URL https://httpbin.org/status/500 returned status as 500
+This page isn't working
+```
+
+## ⚙️5. OS Detection and NGINX Installation
+
+install NGINX differently depending on whether the system uses APT (Debian/Ubuntu) or YUM (RHEL/Amazon Linux).
+
+```bash
+#!/bin/bash
+
+install_nginx_debian() {
+  echo "Detected Debian/Ubuntu OS system. Installing NGINX and PHP..."
+  sudo apt update
+  sudo apt install nginx php -y
+}
+
+install_nginx_rhel() {
+  echo "Detected RHEL/Amazon Linux OS system. Installing NGINX..."
+  sudo yum install epel-release -y
+  sudo yum install nginx -y
+}
+
+# Detect OS by checking which package manager exists
+if command -v apt >/dev/null 2>&1; then
+  install_nginx_debian
+elif command -v yum >/dev/null 2>&1; then
+  install_nginx_rhel
+else
+  echo "Unsupported Linux distribution or package manager not found"
+  exit 1
+fi
+
+# Check if nginx service is active
+SERVICE="nginx"
+if systemctl is-active --quiet "$SERVICE"; then
+  echo "$SERVICE is running"
+else
+  echo "$SERVICE is not running.. Attempting to restart.."
+  sudo systemctl restart $SERVICE
+fi
+
+```
+
+🧠 Explanation
+--------------
+
+### 🏗️ Functions
+
+Functions let you group commands for reuse.
+
+**Syntax:**
+
+```bash
+function_name() {
+  # commands
+}
+
+```
+
+You defined:
+
+*   `install_nginx_debian()`
+    
+*   `install_nginx_rhel()`
+    
+
+### 🧩 Command Detection
+
+*   `command -v apt` → Checks if apt command exists (Debian/Ubuntu)
+    
+*   `command -v yum` → Checks if yum command exists (RHEL/Amazon)
+    
+
+### 🛠️ Package Installation
+
+*   **Debian/Ubuntu** → `apt install nginx php`
+    
+*   **RHEL/Amazon** → `yum install nginx`
+    
+
+### 🧩 Service Check
+
+*   `systemctl is-active --quiet nginx`
+    
+    *   Returns `0` if service is active.
+        
+    *   If not active, script restarts it.
+        
+
+### ✅ Output Example
+
+```bash
+Detected Debian/Ubuntu OS system. Installing NGINX and PHP...
+nginx is running
+
+```
+Or if it’s down:
+
+```bash
+nginx is not running.. Attempting to restart..
+
+```
+
+## ⚡ Key Learnings Recap
+
+| Concept            | Description                  |
+| ------------------ | ---------------------------- |
+| `if [ condition ]` | Conditional statement        |
+| `elif`             | Else if                      |
+| `command -v`       | Checks if a command exists   |
+| `function_name()`  | Defines a function           |
+| `systemctl`        | Controls and checks services |
+| `exit 1`           | Stops the script on error    |
+| `curl`             | Used to test URLs            |
+| `status=$(...)`    | Command substitution         |
