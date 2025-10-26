@@ -1152,7 +1152,7 @@ PID TTY          TIME CMD
 
 ---
 
-## 🌐 3. netstat
+## 🌐 3. netstat & ss
 
 `netstat` (**network statistics**) displays network connections, ports, and protocols used by your system.
 
@@ -1160,6 +1160,7 @@ PID TTY          TIME CMD
 
 ### 🔹 Command
 ```bash
+sudo apt install net-tools -y
 sudo netstat -plant
 ```
 
@@ -1180,6 +1181,25 @@ tcp6       0      0 :::8080        :::*             LISTEN  1234/java
 ```
 
 📘 **This means port 8080 is being used by a Java process (like Jenkins or Tomcat).**
+
+`ss` is the modern replacement for `netstat` and is installed by default on Ubuntu.
+
+Equivalent command:
+```bash
+sudo ss -tulnp
+```
+Explanation of flags:
+
+- `t` → TCP sockets
+
+- `u` → UDP sockets
+
+- `l` → Listening sockets only
+
+- `n` → Show numerical addresses (no DNS lookup)
+
+- `p` → Show process using the port
+
 
 ---
 
